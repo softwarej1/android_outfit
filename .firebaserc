@@ -1,0 +1,8 @@
+{
+  "projects": {
+    "default": "androidoutfit",
+    "outfit": "androidoutfit"
+  },
+  "targets": {},
+  "etags": {}
+}

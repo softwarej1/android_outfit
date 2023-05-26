@@ -1,10 +1,12 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:flutter_outfit/src/res/contextual_list.dart';
 import 'package:flutter_outfit/src/ui/home.dart';
 import 'package:flutter_outfit/src/ui/likes.dart';
 import 'package:flutter_outfit/src/ui/login.dart';
 import 'package:flutter_outfit/src/ui/store.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 // ignore: camel_case_types
 class myflutter extends StatefulWidget {
@@ -16,6 +18,26 @@ class myflutter extends StatefulWidget {
 
 // ignore: camel_case_types
 class _myflutterState extends State<myflutter> {
+  final _authentication = FirebaseAuth.instance;
+  User? loggedUser;
+
+  void initState() {
+    super.initState();
+    getCurrentUser();
+  }
+
+  void getCurrentUser() {
+    try {
+      final user = _authentication.currentUser;
+      if (user != null) {
+        loggedUser = user;
+        print(loggedUser!.email);
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   var _index = 1;
 
   // ignore: prefer_final_fields
@@ -24,6 +46,18 @@ class _myflutterState extends State<myflutter> {
     const home(),
     const store(),
   ];
+
+  void login() {
+    setState(() {
+      ContextualList.isLoggedIn = true;
+    });
+  }
+
+  void logout() {
+    setState(() {
+      ContextualList.isLoggedIn = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,12 +70,22 @@ class _myflutterState extends State<myflutter> {
         foregroundColor: Colors.black,
         elevation: 0.0,
         actions: [
-          IconButton(
+          if (!ContextualList.isLoggedIn)
+            IconButton(
               onPressed: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => const Login()));
               },
-              icon: const Icon(Icons.account_circle_rounded))
+              icon: const Icon(Icons.account_circle_rounded),
+            ),
+          if (ContextualList.isLoggedIn)
+            IconButton(
+              onPressed: () {
+                _authentication.signOut();
+                Navigator.pop(context);
+              },
+              icon: const Icon(Icons.exit_to_app_outlined),
+            ),
         ],
       ),
       body: _pages[_index],

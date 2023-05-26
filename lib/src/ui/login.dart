@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_outfit/src/myflutter.dart';
+
+import '../res/contextual_list.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -8,6 +12,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  final _authentication = FirebaseAuth.instance;
   bool isSignupScreen = true;
   final _formKey = GlobalKey<FormState>();
   String userName = '';
@@ -134,15 +139,19 @@ class _LoginState extends State<Login> {
                         child: Column(
                           children: [
                             TextFormField(
+                              keyboardType: TextInputType.emailAddress,
                               key: ValueKey(1),
                               validator: (value) {
-                                if (value!.isEmpty || value.contains('@')) {
+                                if (value!.isEmpty || !value.contains('@')) {
                                   return 'Please enter at least 4 charactor';
                                 }
                                 return null;
                               },
                               onSaved: (value) {
                                 userEmail = value!;
+                              },
+                              onChanged: (value) {
+                                userEmail = value;
                               },
                               decoration: InputDecoration(
                                 prefixIcon: Icon(
@@ -178,6 +187,7 @@ class _LoginState extends State<Login> {
                               height: 16,
                             ),
                             TextFormField(
+                              obscureText: true,
                               key: ValueKey(2),
                               validator: (value) {
                                 if (value!.isEmpty || value.length < 6) {
@@ -187,6 +197,9 @@ class _LoginState extends State<Login> {
                               },
                               onSaved: (value) {
                                 userPassword = value!;
+                              },
+                              onChanged: (value) {
+                                userPassword = value;
                               },
                               decoration: InputDecoration(
                                 prefixIcon: Icon(
@@ -240,6 +253,9 @@ class _LoginState extends State<Login> {
                               onSaved: (value) {
                                 userName = value!;
                               },
+                              onChanged: (value) {
+                                userName = value;
+                              },
                               decoration: InputDecoration(
                                 prefixIcon: Icon(
                                   Icons.account_circle,
@@ -274,15 +290,19 @@ class _LoginState extends State<Login> {
                               height: 16,
                             ),
                             TextFormField(
+                              keyboardType: TextInputType.emailAddress,
                               key: ValueKey(4),
                               validator: (value) {
-                                if (value!.isEmpty || value.contains('@')) {
+                                if (value!.isEmpty || !value.contains('@')) {
                                   return 'Please enter at least 4 charactor';
                                 }
                                 return null;
                               },
                               onSaved: (value) {
                                 userEmail = value!;
+                              },
+                              onChanged: (value) {
+                                userEmail = value;
                               },
                               decoration: InputDecoration(
                                 prefixIcon: Icon(
@@ -318,6 +338,7 @@ class _LoginState extends State<Login> {
                               height: 16,
                             ),
                             TextFormField(
+                              obscureText: true,
                               key: ValueKey(5),
                               validator: (value) {
                                 if (value!.isEmpty || value.length < 6) {
@@ -327,6 +348,9 @@ class _LoginState extends State<Login> {
                               },
                               onSaved: (value) {
                                 userPassword = value!;
+                              },
+                              onChanged: (value) {
+                                userPassword = value;
                               },
                               decoration: InputDecoration(
                                 prefixIcon: Icon(
@@ -366,8 +390,54 @@ class _LoginState extends State<Login> {
               ),
             ),
             ElevatedButton(
-              onPressed: () {
-                _tryValidation();
+              onPressed: () async {
+                if (!isSignupScreen) {
+                  _tryValidation();
+
+                  try {
+                    final newUser =
+                        await _authentication.createUserWithEmailAndPassword(
+                            email: userEmail, password: userPassword);
+
+                    if (newUser.user != null) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) {
+                          return myflutter();
+                        }),
+                      );
+                    }
+                  } catch (e) {
+                    print(e);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Please check your email and password'),
+                      ),
+                    );
+                  }
+                }
+                if (isSignupScreen) {
+                  _authentication;
+
+                  try {
+                    final newUser =
+                        await _authentication.signInWithEmailAndPassword(
+                            email: userEmail, password: userPassword);
+                    if (newUser.user != null) {
+                      ContextualList.isLoggedIn = true;
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return myflutter();
+                          },
+                        ),
+                      );
+                    }
+                  } catch (e) {
+                    print(e);
+                  }
+                }
               },
               child: Text('data'),
             ),

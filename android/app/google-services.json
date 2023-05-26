@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "675818629125",
+    "project_id": "androidoutfit",
+    "storage_bucket": "androidoutfit.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:675818629125:android:6f4bb7657efbb3e562146c",
+        "android_client_info": {
+          "package_name": "com.example.flutter_outfit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "675818629125-idif4k29g7a17rv8h2vpkk2lr7jrkbld.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7jvsKGwwojXbG0K3qJJEgoovZiuVim-k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "675818629125-idif4k29g7a17rv8h2vpkk2lr7jrkbld.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

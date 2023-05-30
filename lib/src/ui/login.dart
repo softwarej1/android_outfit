@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_outfit/src/myflutter.dart';
+import 'package:flutter_outfit/src/res/image_path.dart';
 
 import '../res/contextual_list.dart';
 
@@ -35,12 +36,12 @@ class _LoginState extends State<Login> {
         foregroundColor: Colors.black,
         elevation: 0.0,
         centerTitle: true,
-        title: Text(
+        title: const Text(
           '오늘 뭐 입지?',
           style: TextStyle(fontSize: 14),
         ),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_new),
+          icon: const Icon(Icons.arrow_back_ios_new),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -52,11 +53,31 @@ class _LoginState extends State<Login> {
         },
         child: Column(
           children: [
+            const SizedBox(
+              height: 40,
+            ),
             Container(
-              padding: EdgeInsets.all(20.0),
+              height: 180,
+              width: 200,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(5.0),
+                child: Image.asset(
+                  ImagePath.loginLogoImage,
+                  fit: BoxFit.fill,
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 40,
+            ),
+            Container(
+              padding: const EdgeInsets.all(20.0),
               height: isSignupScreen ? 250 : 330,
               width: MediaQuery.of(context).size.width - 40,
-              margin: EdgeInsets.symmetric(horizontal: 20.0),
+              margin: const EdgeInsets.symmetric(horizontal: 20.0),
               decoration: BoxDecoration(
                 color: const Color.fromARGB(255, 255, 255, 255),
                 borderRadius: BorderRadius.circular(15.0),
@@ -87,13 +108,13 @@ class _LoginState extends State<Login> {
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
                                 color: !isSignupScreen
-                                    ? Color.fromARGB(255, 166, 166, 166)
+                                    ? const Color.fromARGB(255, 166, 166, 166)
                                     : Colors.black,
                               ),
                             ),
                             if (isSignupScreen)
                               Container(
-                                margin: EdgeInsets.only(top: 3),
+                                margin: const EdgeInsets.only(top: 3),
                                 height: 2,
                                 width: 55,
                                 color: Colors.orange,
@@ -115,13 +136,13 @@ class _LoginState extends State<Login> {
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
                                 color: isSignupScreen
-                                    ? Color.fromARGB(255, 166, 166, 166)
+                                    ? const Color.fromARGB(255, 166, 166, 166)
                                     : Colors.black,
                               ),
                             ),
                             if (!isSignupScreen)
                               Container(
-                                margin: EdgeInsets.only(top: 3),
+                                margin: const EdgeInsets.only(top: 3),
                                 height: 2,
                                 width: 55,
                                 color: Colors.orange,
@@ -133,14 +154,14 @@ class _LoginState extends State<Login> {
                   ),
                   if (isSignupScreen)
                     Container(
-                      margin: EdgeInsets.only(top: 20),
+                      margin: const EdgeInsets.only(top: 20),
                       child: Form(
                         key: _formKey,
                         child: Column(
                           children: [
                             TextFormField(
                               keyboardType: TextInputType.emailAddress,
-                              key: ValueKey(1),
+                              key: const ValueKey(1),
                               validator: (value) {
                                 if (value!.isEmpty || !value.contains('@')) {
                                   return 'Please enter at least 4 charactor';
@@ -153,7 +174,7 @@ class _LoginState extends State<Login> {
                               onChanged: (value) {
                                 userEmail = value;
                               },
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 prefixIcon: Icon(
                                   Icons.email,
                                   color: Color.fromARGB(255, 166, 166, 166),
@@ -177,18 +198,17 @@ class _LoginState extends State<Login> {
                                 hintText: 'email',
                                 hintStyle: TextStyle(
                                   fontSize: 14,
-                                  color:
-                                      const Color.fromARGB(255, 166, 166, 166),
+                                  color: Color.fromARGB(255, 166, 166, 166),
                                 ),
                                 contentPadding: EdgeInsets.all(10),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 16,
                             ),
                             TextFormField(
                               obscureText: true,
-                              key: ValueKey(2),
+                              key: const ValueKey(2),
                               validator: (value) {
                                 if (value!.isEmpty || value.length < 6) {
                                   return 'Please enter at least 4 charactor';
@@ -201,7 +221,7 @@ class _LoginState extends State<Login> {
                               onChanged: (value) {
                                 userPassword = value;
                               },
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 prefixIcon: Icon(
                                   Icons.lock,
                                   color: Color.fromARGB(255, 166, 166, 166),
@@ -225,8 +245,7 @@ class _LoginState extends State<Login> {
                                 hintText: 'password',
                                 hintStyle: TextStyle(
                                   fontSize: 14,
-                                  color:
-                                      const Color.fromARGB(255, 166, 166, 166),
+                                  color: Color.fromARGB(255, 166, 166, 166),
                                 ),
                                 contentPadding: EdgeInsets.all(10),
                               ),
@@ -237,13 +256,13 @@ class _LoginState extends State<Login> {
                     ),
                   if (!isSignupScreen)
                     Container(
-                      margin: EdgeInsets.only(top: 20),
+                      margin: const EdgeInsets.only(top: 20),
                       child: Form(
                         key: _formKey,
                         child: Column(
                           children: [
                             TextFormField(
-                              key: ValueKey(3),
+                              key: const ValueKey(3),
                               validator: (value) {
                                 if (value!.isEmpty || value.length < 4) {
                                   return 'Please enter at least 4 charactor';
@@ -256,7 +275,7 @@ class _LoginState extends State<Login> {
                               onChanged: (value) {
                                 userName = value;
                               },
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 prefixIcon: Icon(
                                   Icons.account_circle,
                                   color: Color.fromARGB(255, 166, 166, 166),
@@ -280,18 +299,17 @@ class _LoginState extends State<Login> {
                                 hintText: 'User name',
                                 hintStyle: TextStyle(
                                   fontSize: 14,
-                                  color:
-                                      const Color.fromARGB(255, 166, 166, 166),
+                                  color: Color.fromARGB(255, 166, 166, 166),
                                 ),
                                 contentPadding: EdgeInsets.all(10),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 16,
                             ),
                             TextFormField(
                               keyboardType: TextInputType.emailAddress,
-                              key: ValueKey(4),
+                              key: const ValueKey(4),
                               validator: (value) {
                                 if (value!.isEmpty || !value.contains('@')) {
                                   return 'Please enter at least 4 charactor';
@@ -304,7 +322,7 @@ class _LoginState extends State<Login> {
                               onChanged: (value) {
                                 userEmail = value;
                               },
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 prefixIcon: Icon(
                                   Icons.email,
                                   color: Color.fromARGB(255, 166, 166, 166),
@@ -328,18 +346,17 @@ class _LoginState extends State<Login> {
                                 hintText: 'email',
                                 hintStyle: TextStyle(
                                   fontSize: 14,
-                                  color:
-                                      const Color.fromARGB(255, 166, 166, 166),
+                                  color: Color.fromARGB(255, 166, 166, 166),
                                 ),
                                 contentPadding: EdgeInsets.all(10),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 16,
                             ),
                             TextFormField(
                               obscureText: true,
-                              key: ValueKey(5),
+                              key: const ValueKey(5),
                               validator: (value) {
                                 if (value!.isEmpty || value.length < 6) {
                                   return 'Please enter at least 4 charactor';
@@ -352,7 +369,7 @@ class _LoginState extends State<Login> {
                               onChanged: (value) {
                                 userPassword = value;
                               },
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 prefixIcon: Icon(
                                   Icons.lock,
                                   color: Color.fromARGB(255, 166, 166, 166),
@@ -376,8 +393,7 @@ class _LoginState extends State<Login> {
                                 hintText: 'password',
                                 hintStyle: TextStyle(
                                   fontSize: 14,
-                                  color:
-                                      const Color.fromARGB(255, 166, 166, 166),
+                                  color: Color.fromARGB(255, 166, 166, 166),
                                 ),
                                 contentPadding: EdgeInsets.all(10),
                               ),
@@ -389,57 +405,80 @@ class _LoginState extends State<Login> {
                 ],
               ),
             ),
-            ElevatedButton(
-              onPressed: () async {
-                if (!isSignupScreen) {
-                  _tryValidation();
+            const SizedBox(
+              height: 20,
+            ),
+            Container(
+              height: 46,
+              width: 130,
+              child: ElevatedButton(
+                onPressed: () async {
+                  if (!isSignupScreen) {
+                    _tryValidation();
 
-                  try {
-                    final newUser =
-                        await _authentication.createUserWithEmailAndPassword(
-                            email: userEmail, password: userPassword);
+                    try {
+                      final newUser =
+                          await _authentication.createUserWithEmailAndPassword(
+                              email: userEmail, password: userPassword);
 
-                    if (newUser.user != null) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) {
-                          return myflutter();
-                        }),
-                      );
-                    }
-                  } catch (e) {
-                    print(e);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('Please check your email and password'),
-                      ),
-                    );
-                  }
-                }
-                if (isSignupScreen) {
-                  _authentication;
-
-                  try {
-                    final newUser =
-                        await _authentication.signInWithEmailAndPassword(
-                            email: userEmail, password: userPassword);
-                    if (newUser.user != null) {
-                      ContextualList.isLoggedIn = true;
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return myflutter();
-                          },
+                      if (newUser.user != null) {
+                        // ignore: use_build_context_synchronously
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) {
+                            return const myflutter();
+                          }),
+                        );
+                      }
+                    } catch (e) {
+                      // ignore: avoid_print
+                      print(e);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Please check your email and password'),
                         ),
                       );
                     }
-                  } catch (e) {
-                    print(e);
                   }
-                }
-              },
-              child: Text('data'),
+                  if (isSignupScreen) {
+                    _authentication;
+
+                    try {
+                      final newUser =
+                          await _authentication.signInWithEmailAndPassword(
+                              email: userEmail, password: userPassword);
+                      if (newUser.user != null) {
+                        ContextualList.isLoggedIn = true;
+                        // ignore: use_build_context_synchronously
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return const myflutter();
+                            },
+                          ),
+                        );
+                      }
+                    } catch (e) {
+                      // ignore: avoid_print
+                      print(e);
+                    }
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.zero,
+                  backgroundColor: Colors.white,
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(5.0),
+                  child: Image.asset(
+                    isSignupScreen
+                        ? ImagePath.loginButtonImage
+                        : ImagePath.signupButtonImage,
+                    fit: BoxFit.fill,
+                  ),
+                ),
+              ),
             ),
           ],
         ),

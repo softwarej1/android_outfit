@@ -56,6 +56,7 @@ class _ListButtonState extends State<ListButton> {
                 ),
                 child: Row(
                   children: [
+                    // ignore: avoid_unnecessary_containers
                     Container(
                       child: Image.asset(
                         widget.menuListIcons[index],

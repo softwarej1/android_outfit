@@ -21,6 +21,7 @@ class _myflutterState extends State<myflutter> {
   final _authentication = FirebaseAuth.instance;
   User? loggedUser;
 
+  @override
   void initState() {
     super.initState();
     getCurrentUser();
@@ -31,9 +32,11 @@ class _myflutterState extends State<myflutter> {
       final user = _authentication.currentUser;
       if (user != null) {
         loggedUser = user;
+        // ignore: avoid_print
         print(loggedUser!.email);
       }
     } catch (e) {
+      // ignore: avoid_print
       print(e);
     }
   }

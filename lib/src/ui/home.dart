@@ -31,19 +31,19 @@ class _homeState extends State<home> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Padding(
-                padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                 child: ItemMenu(
                   menuimage: ImagePath.genderTabImage,
                 ),
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(5, 10, 5, 0),
+                padding: const EdgeInsets.fromLTRB(5, 10, 5, 0),
                 child: ItemMenu(
                   menuimage: ImagePath.seasonTabImage,
                 ),
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(5, 10, 0, 0),
+                padding: const EdgeInsets.fromLTRB(5, 10, 0, 0),
                 child: ItemMenu(
                   menuimage: ImagePath.situationTabImage,
                 ),
@@ -61,14 +61,16 @@ class _homeState extends State<home> {
                   setState(
                     () {
                       genNumber = index;
+                      // ignore: avoid_print
                       print('성별');
+                      // ignore: avoid_print
                       print(genNumber);
                     },
                   );
                   // 클릭된 버튼에 대한 추가적인 처리나 상태 업데이트 수행
                 },
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               ListButton(
                 menuListIcons: ImagePath.season_iconimage,
                 menuListText: ContextualList.season,
@@ -77,14 +79,16 @@ class _homeState extends State<home> {
                   setState(
                     () {
                       seasonNumber = index;
+                      // ignore: avoid_print
                       print('계절');
+                      // ignore: avoid_print
                       print(seasonNumber);
                     },
                   );
                   // 클릭된 버튼에 대한 추가적인 처리나 상태 업데이트 수행
                 },
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               ListButton(
                 menuListIcons: ImagePath.situation_iconimage,
                 menuListText: ContextualList.situation,
@@ -93,7 +97,9 @@ class _homeState extends State<home> {
                   setState(
                     () {
                       situationNuber = index;
+                      // ignore: avoid_print
                       print('상황별');
+                      // ignore: avoid_print
                       print(situationNuber);
                     },
                   );
@@ -109,7 +115,7 @@ class _homeState extends State<home> {
               return Image.asset(image, fit: BoxFit.cover);
             }).toList(),
             options: CarouselOptions(
-              height: 400.0,
+              height: 370.0,
               onPageChanged: (index, reason) {
                 setState(
                   () {
@@ -119,18 +125,18 @@ class _homeState extends State<home> {
               },
             ),
           ),
-          SizedBox(height: 10.0),
+          const SizedBox(height: 10.0),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 '${_current + 1} / ${ImagePath.ContextualImage[genNumber][seasonNumber][situationNuber].length}',
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 20.0,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(width: 10.0),
+              const SizedBox(width: 10.0),
               ...ImagePath.ContextualImage[genNumber][seasonNumber]
                       [situationNuber]
                   .asMap()
@@ -140,7 +146,8 @@ class _homeState extends State<home> {
                 return Container(
                   width: 10.0,
                   height: 10.0,
-                  margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                  margin: const EdgeInsets.symmetric(
+                      vertical: 10.0, horizontal: 2.0),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: _current == index ? Colors.blue : Colors.grey,

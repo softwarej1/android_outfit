@@ -7,19 +7,23 @@ import 'package:flutter_outfit/src/ui/likes.dart';
 import 'package:flutter_outfit/src/ui/login.dart';
 import 'package:flutter_outfit/src/ui/store.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
+
+import '../main.dart';
 
 // ignore: camel_case_types
-class myflutter extends StatefulWidget {
-  const myflutter({super.key});
+class Myflutter extends StatefulWidget {
+  const Myflutter({super.key});
 
   @override
-  State<myflutter> createState() => _myflutterState();
+  State<Myflutter> createState() => _MyflutterState();
 }
 
 // ignore: camel_case_types
-class _myflutterState extends State<myflutter> {
+class _MyflutterState extends State<Myflutter> {
   final _authentication = FirebaseAuth.instance;
   User? loggedUser;
+  int _currentIndex = 1;
 
   @override
   void initState() {
@@ -41,15 +45,6 @@ class _myflutterState extends State<myflutter> {
     }
   }
 
-  var _index = 1;
-
-  // ignore: prefer_final_fields
-  List<Widget> _pages = [
-    const likes(),
-    const home(),
-    const store(),
-  ];
-
   void login() {
     setState(() {
       ContextualList.isLoggedIn = true;
@@ -64,51 +59,65 @@ class _myflutterState extends State<myflutter> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('오늘 뭐 입지?'),
-        centerTitle: true,
-        titleTextStyle: const TextStyle(color: Colors.black),
-        backgroundColor: const Color.fromARGB(255, 255, 228, 199),
-        foregroundColor: Colors.black,
-        elevation: 0.0,
-        actions: [
-          if (!ContextualList.isLoggedIn)
-            IconButton(
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const Login()));
+    return ChangeNotifierProvider<MyNotifier>(
+      create: (context) => MyNotifier(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('오늘 뭐 입지?'),
+          centerTitle: true,
+          titleTextStyle: const TextStyle(color: Colors.black),
+          backgroundColor: const Color.fromARGB(255, 255, 228, 199),
+          foregroundColor: Colors.black,
+          elevation: 0.0,
+          actions: [
+            if (!ContextualList.isLoggedIn)
+              IconButton(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const Login()));
+                },
+                icon: const Icon(Icons.account_circle_rounded),
+              ),
+            if (ContextualList.isLoggedIn)
+              IconButton(
+                onPressed: () {
+                  _authentication.signOut();
+                  Navigator.pop(context);
+                },
+                icon: const Icon(Icons.exit_to_app_outlined),
+              ),
+          ],
+        ),
+        body: _buildPage(),
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _currentIndex,
+          onTap: (value) {
+            setState(
+              () {
+                _currentIndex = value;
               },
-              icon: const Icon(Icons.account_circle_rounded),
-            ),
-          if (ContextualList.isLoggedIn)
-            IconButton(
-              onPressed: () {
-                _authentication.signOut();
-                Navigator.pop(context);
-              },
-              icon: const Icon(Icons.exit_to_app_outlined),
-            ),
-        ],
+            );
+          },
+          items: const [
+            BottomNavigationBarItem(
+                icon: Icon(Icons.favorite_border_outlined), label: 'likes'),
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'mypage'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.shopping_cart), label: 'store'),
+          ],
+        ),
       ),
-      body: _pages[_index],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _index,
-        onTap: (value) {
-          setState(
-            () {
-              _index = value;
-            },
-          );
-        },
-        items: const [
-          BottomNavigationBarItem(
-              icon: Icon(Icons.favorite_border_outlined), label: 'likes'),
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'mypage'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.shopping_cart), label: 'store'),
-        ],
-      ),
+    );
+  }
+
+  Widget _buildPage() {
+    return IndexedStack(
+      index: _currentIndex,
+      children: [
+        Likes(),
+        const home(),
+        const store(),
+      ],
     );
   }
 }

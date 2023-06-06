@@ -57,23 +57,6 @@ class _LoginState extends State<Login> {
               height: 40,
             ),
             Container(
-              height: 180,
-              width: 200,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(5.0),
-                child: Image.asset(
-                  ImagePath.loginLogoImage,
-                  fit: BoxFit.fill,
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 40,
-            ),
-            Container(
               padding: const EdgeInsets.all(20.0),
               height: isSignupScreen ? 250 : 330,
               width: MediaQuery.of(context).size.width - 40,
@@ -103,7 +86,7 @@ class _LoginState extends State<Login> {
                         child: Column(
                           children: [
                             Text(
-                              'LOGIN',
+                              '로그인',
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
@@ -131,7 +114,7 @@ class _LoginState extends State<Login> {
                         child: Column(
                           children: [
                             Text(
-                              'SIGNUP',
+                              '가입하기',
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
@@ -164,7 +147,7 @@ class _LoginState extends State<Login> {
                               key: const ValueKey(1),
                               validator: (value) {
                                 if (value!.isEmpty || !value.contains('@')) {
-                                  return 'Please enter at least 4 charactor';
+                                  return '이메일 형식에 맞게 4자 이상을 입력하십시오';
                                 }
                                 return null;
                               },
@@ -195,7 +178,7 @@ class _LoginState extends State<Login> {
                                     Radius.circular(25.0),
                                   ),
                                 ),
-                                hintText: 'email',
+                                hintText: '이메일을 입력해주세요.',
                                 hintStyle: TextStyle(
                                   fontSize: 14,
                                   color: Color.fromARGB(255, 166, 166, 166),
@@ -211,7 +194,7 @@ class _LoginState extends State<Login> {
                               key: const ValueKey(2),
                               validator: (value) {
                                 if (value!.isEmpty || value.length < 6) {
-                                  return 'Please enter at least 4 charactor';
+                                  return '6자 이상을 입력하십시오.';
                                 }
                                 return null;
                               },
@@ -242,7 +225,7 @@ class _LoginState extends State<Login> {
                                     Radius.circular(25.0),
                                   ),
                                 ),
-                                hintText: 'password',
+                                hintText: '비밀번호를 입력해주세요.',
                                 hintStyle: TextStyle(
                                   fontSize: 14,
                                   color: Color.fromARGB(255, 166, 166, 166),
@@ -265,7 +248,7 @@ class _LoginState extends State<Login> {
                               key: const ValueKey(3),
                               validator: (value) {
                                 if (value!.isEmpty || value.length < 4) {
-                                  return 'Please enter at least 4 charactor';
+                                  return '4자 이상을 입력하십시오';
                                 }
                                 return null;
                               },
@@ -296,7 +279,7 @@ class _LoginState extends State<Login> {
                                     Radius.circular(25.0),
                                   ),
                                 ),
-                                hintText: 'User name',
+                                hintText: '사용자 이름을 생성해주세요.',
                                 hintStyle: TextStyle(
                                   fontSize: 14,
                                   color: Color.fromARGB(255, 166, 166, 166),
@@ -312,7 +295,7 @@ class _LoginState extends State<Login> {
                               key: const ValueKey(4),
                               validator: (value) {
                                 if (value!.isEmpty || !value.contains('@')) {
-                                  return 'Please enter at least 4 charactor';
+                                  return '이메일 형식에 맞게 4자 이상을 입력하십시오';
                                 }
                                 return null;
                               },
@@ -343,7 +326,7 @@ class _LoginState extends State<Login> {
                                     Radius.circular(25.0),
                                   ),
                                 ),
-                                hintText: 'email',
+                                hintText: '이메일을 입력해주세요.',
                                 hintStyle: TextStyle(
                                   fontSize: 14,
                                   color: Color.fromARGB(255, 166, 166, 166),
@@ -359,7 +342,7 @@ class _LoginState extends State<Login> {
                               key: const ValueKey(5),
                               validator: (value) {
                                 if (value!.isEmpty || value.length < 6) {
-                                  return 'Please enter at least 4 charactor';
+                                  return '6자 이상을 입력하십시오';
                                 }
                                 return null;
                               },
@@ -390,7 +373,7 @@ class _LoginState extends State<Login> {
                                     Radius.circular(25.0),
                                   ),
                                 ),
-                                hintText: 'password',
+                                hintText: '비밀번호를 입력해주세요.',
                                 hintStyle: TextStyle(
                                   fontSize: 14,
                                   color: Color.fromARGB(255, 166, 166, 166),
@@ -408,7 +391,7 @@ class _LoginState extends State<Login> {
             const SizedBox(
               height: 20,
             ),
-            Container(
+            SizedBox(
               height: 46,
               width: 130,
               child: ElevatedButton(
@@ -426,7 +409,7 @@ class _LoginState extends State<Login> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) {
-                            return const myflutter();
+                            return const Myflutter();
                           }),
                         );
                       }
@@ -435,7 +418,7 @@ class _LoginState extends State<Login> {
                       print(e);
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
-                          content: Text('Please check your email and password'),
+                          content: Text('이메일과 비밀번호를 확인해주세요'),
                         ),
                       );
                     }
@@ -454,7 +437,7 @@ class _LoginState extends State<Login> {
                           context,
                           MaterialPageRoute(
                             builder: (context) {
-                              return const myflutter();
+                              return const Myflutter();
                             },
                           ),
                         );

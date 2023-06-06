@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_outfit/src/components/item_menu.dart';
 import 'package:flutter_outfit/src/components/list_button.dart';
+import 'package:provider/provider.dart';
+import '../../main.dart';
 import '../res/contextual_list.dart';
 
 import '../res/image_path.dart';
@@ -19,7 +21,27 @@ class _homeState extends State<home> {
   int _current = 0;
   int genNumber = 0;
   int seasonNumber = 0;
-  int situationNuber = 0;
+  int situationNumber = 0;
+  List<String> likedImages = [];
+
+  void toggleLike(String image) {
+    setState(() {
+      if (likedImages.contains(image)) {
+        likedImages.remove(image);
+      } else {
+        likedImages.add(image);
+      }
+    });
+
+    List<String> contextualList = [];
+    if (likedImages.isNotEmpty) {
+      // 찜 상태인 경우에만 데이터 배열을 저장합니다.
+      contextualList = likedImages.toList();
+    }
+
+    MyNotifier myNotifier = Provider.of<MyNotifier>(context, listen: false);
+    myNotifier.saveContextualList(contextualList);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,10 +83,6 @@ class _homeState extends State<home> {
                   setState(
                     () {
                       genNumber = index;
-                      // ignore: avoid_print
-                      print('성별');
-                      // ignore: avoid_print
-                      print(genNumber);
                     },
                   );
                   // 클릭된 버튼에 대한 추가적인 처리나 상태 업데이트 수행
@@ -79,10 +97,6 @@ class _homeState extends State<home> {
                   setState(
                     () {
                       seasonNumber = index;
-                      // ignore: avoid_print
-                      print('계절');
-                      // ignore: avoid_print
-                      print(seasonNumber);
                     },
                   );
                   // 클릭된 버튼에 대한 추가적인 처리나 상태 업데이트 수행
@@ -96,11 +110,7 @@ class _homeState extends State<home> {
                 onButtonPressed: (index) {
                   setState(
                     () {
-                      situationNuber = index;
-                      // ignore: avoid_print
-                      print('상황별');
-                      // ignore: avoid_print
-                      print(situationNuber);
+                      situationNumber = index;
                     },
                   );
                   // 클릭된 버튼에 대한 추가적인 처리나 상태 업데이트 수행
@@ -110,9 +120,25 @@ class _homeState extends State<home> {
           ),
           CarouselSlider(
             items: ImagePath.ContextualImage[genNumber][seasonNumber]
-                    [situationNuber]
+                    [situationNumber]
                 .map((image) {
-              return Image.asset(image, fit: BoxFit.cover);
+              final isLiked = likedImages.contains(image);
+              return Stack(
+                children: [
+                  Image.asset(image, fit: BoxFit.cover),
+                  Positioned(
+                    right: 8,
+                    child: IconButton(
+                      iconSize: 30,
+                      onPressed: () => toggleLike(image),
+                      icon: Icon(
+                        isLiked ? Icons.favorite : Icons.favorite_border,
+                        color: isLiked ? Colors.red : Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              );
             }).toList(),
             options: CarouselOptions(
               height: 370.0,
@@ -130,7 +156,7 @@ class _homeState extends State<home> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                '${_current + 1} / ${ImagePath.ContextualImage[genNumber][seasonNumber][situationNuber].length}',
+                '${_current + 1} / ${ImagePath.ContextualImage[genNumber][seasonNumber][situationNumber].length}',
                 style: const TextStyle(
                   fontSize: 20.0,
                   fontWeight: FontWeight.bold,
@@ -138,7 +164,7 @@ class _homeState extends State<home> {
               ),
               const SizedBox(width: 10.0),
               ...ImagePath.ContextualImage[genNumber][seasonNumber]
-                      [situationNuber]
+                      [situationNumber]
                   .asMap()
                   .entries
                   .map((entry) {
